@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.nathanko.calculator.MainActivity">
+
+
+    <TextView
+        android:text=""
+        android:maxLength="17"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/buffer_textview"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/colorAccent"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:text=""
+        android:maxLength="17"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/input_textview"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textSize="20dp"
+        android:textAlignment="viewEnd"
+        android:layout_below="@id/buffer_textview"
+        android:layout_centerHorizontal="true"/>
+
+
+<!---->
+    <Button
+        android:text="7"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_textview"
+        android:layout_alignLeft="@+id/input_textview"
+        android:id="@+id/numbutton_7"
+        android:onClick="evalNum"/>
+    <Button
+        android:text="8"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/equals_button"
+        android:id="@+id/numbutton_8"
+        android:layout_alignBaseline="@id/numbutton_7"
+        android:layout_toRightOf="@id/numbutton_7"
+        android:onClick="evalNum" />
+
+
+    <Button
+        android:text="9"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numbutton_9"
+        android:layout_alignBaseline="@id/numbutton_7"
+        android:layout_toRightOf="@id/numbutton_8"
+        android:onClick="evalNum" />
+    <Button
+        android:text="4"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numbutton_7"
+        android:layout_alignLeft="@+id/input_textview"
+        android:id="@+id/numbutton_4"
+        android:onClick="evalNum" />
+    <Button
+        android:text="5"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numbutton_5"
+        android:layout_alignBaseline="@id/numbutton_4"
+        android:layout_toRightOf="@id/numbutton_4"
+        android:onClick="evalNum" />
+
+
+    <Button
+        android:text="6"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numbutton_6"
+        android:layout_alignBaseline="@id/numbutton_4"
+        android:layout_toRightOf="@id/numbutton_5"
+        android:onClick="evalNum" />
+    <!---->
+    <Button
+        android:text="1"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numbutton_4"
+        android:id="@+id/numbutton_1"
+        android:layout_alignLeft="@+id/input_textview"
+        android:onClick="evalNum" />
+
+
+    <Button
+        android:text="2"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numbutton_2"
+        android:layout_alignBaseline="@id/numbutton_1"
+        android:layout_toRightOf="@id/numbutton_1"
+        android:onClick="evalNum" />
+
+    <Button
+        android:text="3"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numbutton_3"
+        android:layout_alignBaseline="@id/numbutton_1"
+        android:layout_toRightOf="@id/numbutton_2"
+        android:onClick="evalNum" />
+
+    <Button
+        android:text="0"
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/numbutton_1"
+        android:layout_alignLeft="@+id/input_textview"
+        android:id="@+id/numbutton_0"
+        android:onClick="evalNum" />
+
+
+    <Button
+        android:text="."
+        android:textSize="40sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numbutton_dot"
+        android:layout_alignBaseline="@id/numbutton_0"
+        android:layout_toRightOf="@id/numbutton_0"
+        android:onClick="evalNum" />
+    <Button
+        android:text="+/-"
+        android:textSize="17sp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="74dp"
+        android:id="@+id/numbutton_neg"
+        android:layout_alignTop="@id/numbutton_0"
+        android:layout_toRightOf="@id/numbutton_dot"
+        android:onClick="evalNum" />
+
+    <Button
+        android:text="="
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/equals_button"
+        android:layout_below="@+id/numbutton_0"
+        android:layout_alignLeft="@+id/input_textview"
+        android:layout_alignRight="@id/input_textview"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:onClick="eval" />
+    <!---->
+
+    <Button
+        android:text="+"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_button"
+        android:onClick="opEval"
+        android:elevation="0dp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_below="@id/input_textview"
+        android:layout_toRightOf="@id/numbutton_9"/>
+
+    <Button
+        android:text="-"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sub_button"
+        android:onClick="opEval"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_alignLeft="@id/add_button"
+        android:layout_below="@id/add_button"
+        />
+
+    <Button
+        android:text="x"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mult_button"
+        android:onClick="opEval"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_alignLeft="@id/add_button"
+        android:layout_below="@id/sub_button"
+        />
+
+    <Button
+        android:text="/"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/div_button"
+        android:onClick="opEval"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_alignLeft="@id/add_button"
+        android:layout_below="@id/mult_button" />
+
+    <!---->
+    <Button
+        android:text="Inspect number"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/equals_button"
+        android:layout_alignLeft="@id/equals_button"
+        android:layout_alignRight="@id/equals_button"
+        android:id="@+id/clear_button"
+        android:onClick="save" />
+
+
+
+</RelativeLayout>

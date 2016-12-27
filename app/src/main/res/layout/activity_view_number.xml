@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_number"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.nathanko.calculator.ViewNumber"
+    android:textAlignment="viewEnd">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/num_textview"
+        android:textSize="40sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="108dp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:text="Integer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/num_textview"
+        android:layout_alignStart="@+id/num_textview"
+        android:id="@+id/int_textview"
+        android:textAlignment="viewStart"/>
+
+    <TextView
+        android:text="Prime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/even_textview"
+        android:layout_alignLeft="@+id/even_textview"
+        android:layout_alignStart="@+id/even_textview"
+        android:layout_marginTop="38dp"
+        android:id="@+id/prime_textview"
+        android:textAlignment="viewStart"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/int_textview"
+        android:layout_alignRight="@+id/num_textview"
+        android:layout_alignEnd="@+id/num_textview"
+        android:id="@+id/isInt_textview"
+        android:textAlignment="viewEnd"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/prime_textview"
+        android:layout_alignRight="@+id/isInt_textview"
+        android:layout_alignEnd="@+id/isInt_textview"
+        android:id="@+id/isEven_textview"
+        android:textAlignment="viewEnd"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/prime_textview"
+        android:layout_alignRight="@+id/isEven_textview"
+        android:layout_alignEnd="@+id/isEven_textview"
+        android:id="@+id/isPrime_textview"
+        android:textAlignment="viewEnd"/>
+
+    <TextView
+        android:text="Factors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prime_textview"
+        android:layout_alignLeft="@+id/prime_textview"
+        android:layout_alignStart="@+id/prime_textview"
+        android:layout_marginTop="33dp"
+        android:id="@+id/factors_textview" />
+
+    <TextView
+        android:text="Even"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/even_textview"
+        android:textAlignment="viewStart"
+        android:layout_below="@+id/int_textview"
+        android:layout_alignLeft="@+id/int_textview"
+        android:layout_alignStart="@+id/int_textview" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/num_textview"
+        android:layout_alignEnd="@id/num_textview"
+        android:layout_below="@id/factors_textview"
+        android:id="@+id/thefactors_textview" />
+
+</RelativeLayout>
