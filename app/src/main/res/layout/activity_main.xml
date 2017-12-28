@@ -45,7 +45,7 @@
         android:layout_below="@+id/input_textview"
         android:layout_alignLeft="@+id/input_textview"
         android:id="@+id/numbutton_7"
-        android:onClick="evalNum"/>
+        android:onClick="pressNumBtn"/>
     <Button
         android:text="8"
         android:textSize="40sp"
@@ -56,7 +56,7 @@
         android:id="@+id/numbutton_8"
         android:layout_alignBaseline="@id/numbutton_7"
         android:layout_toRightOf="@id/numbutton_7"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
 
 
     <Button
@@ -68,7 +68,7 @@
         android:id="@+id/numbutton_9"
         android:layout_alignBaseline="@id/numbutton_7"
         android:layout_toRightOf="@id/numbutton_8"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
     <Button
         android:text="4"
         android:textSize="40sp"
@@ -78,7 +78,7 @@
         android:layout_below="@+id/numbutton_7"
         android:layout_alignLeft="@+id/input_textview"
         android:id="@+id/numbutton_4"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
     <Button
         android:text="5"
         android:textSize="40sp"
@@ -88,7 +88,7 @@
         android:id="@+id/numbutton_5"
         android:layout_alignBaseline="@id/numbutton_4"
         android:layout_toRightOf="@id/numbutton_4"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
 
 
     <Button
@@ -100,7 +100,7 @@
         android:id="@+id/numbutton_6"
         android:layout_alignBaseline="@id/numbutton_4"
         android:layout_toRightOf="@id/numbutton_5"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
     <!---->
     <Button
         android:text="1"
@@ -111,7 +111,7 @@
         android:layout_below="@+id/numbutton_4"
         android:id="@+id/numbutton_1"
         android:layout_alignLeft="@+id/input_textview"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
 
 
     <Button
@@ -123,7 +123,7 @@
         android:id="@+id/numbutton_2"
         android:layout_alignBaseline="@id/numbutton_1"
         android:layout_toRightOf="@id/numbutton_1"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
 
     <Button
         android:text="3"
@@ -134,7 +134,7 @@
         android:id="@+id/numbutton_3"
         android:layout_alignBaseline="@id/numbutton_1"
         android:layout_toRightOf="@id/numbutton_2"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
 
     <Button
         android:text="0"
@@ -145,7 +145,7 @@
         android:layout_below="@id/numbutton_1"
         android:layout_alignLeft="@+id/input_textview"
         android:id="@+id/numbutton_0"
-        android:onClick="evalNum" />
+        android:onClick="pressNumBtn" />
 
 
     <Button
@@ -157,7 +157,7 @@
         android:id="@+id/numbutton_dot"
         android:layout_alignBaseline="@id/numbutton_0"
         android:layout_toRightOf="@id/numbutton_0"
-        android:onClick="evalNum" />
+        android:onClick="pressDotOrNegBtn" />
     <Button
         android:text="+/-"
         android:textSize="17sp"
@@ -167,7 +167,7 @@
         android:id="@+id/numbutton_neg"
         android:layout_alignTop="@id/numbutton_0"
         android:layout_toRightOf="@id/numbutton_dot"
-        android:onClick="evalNum" />
+        android:onClick="pressDotOrNegBtn" />
 
     <Button
         android:text="="
@@ -188,7 +188,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_button"
-        android:onClick="opEval"
+        android:onClick="pressOpBtn"
         android:elevation="0dp"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_below="@id/input_textview"
@@ -200,7 +200,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sub_button"
-        android:onClick="opEval"
+        android:onClick="pressOpBtn"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_alignLeft="@id/add_button"
         android:layout_below="@id/add_button"
@@ -212,7 +212,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mult_button"
-        android:onClick="opEval"
+        android:onClick="pressOpBtn"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_alignLeft="@id/add_button"
         android:layout_below="@id/sub_button"
@@ -224,7 +224,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/div_button"
-        android:onClick="opEval"
+        android:onClick="pressOpBtn"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_alignLeft="@id/add_button"
         android:layout_below="@id/mult_button" />
@@ -239,7 +239,7 @@
         android:layout_alignLeft="@id/equals_button"
         android:layout_alignRight="@id/equals_button"
         android:id="@+id/clear_button"
-        android:onClick="save" />
+        android:onClick="inspectNum" />
 
 
 

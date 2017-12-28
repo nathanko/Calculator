@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
 //    Button add_button;
 //    Button mult_button;
 
-    int op = -1;    // current operator, 0: +, 1: -, 2: *, 3: /
-    int lastOp;     // previous operator
+    int operator = -1;    // current operator, 0: +, 1: -, 2: *, 3: /
+    int lastOperator;     // previous operator
 
     boolean overwriteInputNextPress; // whether to overwrite (vs. append to) the inputField on next button
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Number button is pressed
     public void pressNumBtn(View v) {
-        lastOp = -1; //set to "null"
+        lastOperator = -1; //set to "null"
 
         int num = Integer.parseInt(((Button)v).getText().toString());
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Non-number button is pressed
     public void pressDotOrNegBtn(View v) {
-        lastOp = -1; //set to "null"
+        lastOperator = -1; //set to "null"
 
         if (overwriteInputNextPress || inputText.length() == 0) {
             //Overwrite inputText
@@ -126,16 +126,16 @@ public class MainActivity extends AppCompatActivity {
 
         switch (v.getId()) {
             case R.id.add_button:
-                op = 0;
+                operator = 0;
                 break;
             case R.id.sub_button:
-                op = 1;
+                operator = 1;
                 break;
             case R.id.mult_button:
-                op = 2;
+                operator = 2;
                 break;
             case R.id.div_button:
-                op = 3;
+                operator = 3;
                 break;
             default:
                 break;
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String opToString() {
-        switch (op) {
+        switch (operator) {
             case 0:
                 return "+";
             case 1:
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             // If bufferText is empty and user presses the equals button,
             // apply the previous operation to the current inputText
             bufferText = inputText;
-            op = lastOp;
+            operator = lastOperator;
             inputText = lastInputText;
         }
         showDebug();
@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
             ans = evaluate();
         }
 
-        //set lastOp as op and lastInputText as inputText for next use
-        lastOp = op;
+        //set lastOperator as operator and lastInputText as inputText for next use
+        lastOperator = operator;
         lastInputText = inputText;
 
         overwriteInputNextPress = true;
@@ -200,10 +200,10 @@ public class MainActivity extends AppCompatActivity {
 
     public String evaluate() {
 
-        // apply op to bufferText and inputText
+        // apply operator to bufferText and inputText
         BigDecimal ans = BigDecimal.valueOf(toDouble(bufferText));
         if (bufferText.length() > 0 && inputText.length() > 0) {
-            switch (op) {
+            switch (operator) {
                 case 0:
                     ans = BigDecimal.valueOf(toDouble(bufferText)).add(BigDecimal.valueOf(toDouble(inputText)));
                     break;
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showDebug() {
-        Log.v("DEBUG", "bufferText " + bufferText + "\top " + op + "\tinputText " + inputText + "\tlastInputText " + lastInputText + "\tlastOp " + lastOp + "\toverwriteInputNextPress " + overwriteInputNextPress);
+        Log.v("DEBUG", "bufferText " + bufferText + "\toperator " + operator + "\tinputText " + inputText + "\tlastInputText " + lastInputText + "\tlastOperator " + lastOperator + "\toverwriteInputNextPress " + overwriteInputNextPress);
     }
 
 }
