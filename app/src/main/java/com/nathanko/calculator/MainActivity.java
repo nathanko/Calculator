@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     boolean overwriteInputNextPress; // whether to overwrite (vs. append to) the inputField on next button
 
 
-    public static String NUMBER = "com.nathanko.calculator.NUMBER"; // where to store extra for inspectNum intent
+    public static final String NUMBER = "com.nathanko.calculator.NUMBER"; // where to store extra for inspectNum intent
+    final int SCALE = 7; //number of digits displayed in inputField
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             //Round ans to 12 significant figures
             BigDecimal ans = BigDecimal.valueOf(toDouble(bufferText));
-            BigDecimal ansDisplayed = ans.setScale(12 - ans.precision() + ans.scale(), RoundingMode.HALF_UP).stripTrailingZeros();
+            BigDecimal ansDisplayed = ans.setScale(SCALE - ans.precision() + ans.scale(), RoundingMode.HALF_UP).stripTrailingZeros();
             if (ansDisplayed.compareTo(BigDecimal.ZERO) == 0) {
                 display = "0";
             } else {
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     display = String.valueOf(ansDisplayed.intValueExact()) + " " + opToString();
                 }
                 catch (Exception e){
-                    display = ansDisplayed.toString() + " " + opToString();
+                    display = ansDisplayed.stripTrailingZeros().toString() + " " + opToString();
                 }
             }
         }
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             inputText = ans.toString(); //Save accurate (unrounded) value
 
             //Round ans to 12 significant figures
-            BigDecimal ansDisplayed = ans.setScale(12 - ans.precision() + ans.scale(), RoundingMode.HALF_UP);
+            BigDecimal ansDisplayed = ans.setScale(SCALE - ans.precision() + ans.scale(), RoundingMode.HALF_UP);
             if (ansDisplayed.compareTo(BigDecimal.ZERO) == 0) {
                 inputField.setText("0");
             } else {
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     inputField.setText(String.valueOf(ansDisplayed.intValueExact()));
                 }
                 catch (Exception e){
-                    inputField.setText(ansDisplayed.toString());
+                    inputField.setText(ansDisplayed.stripTrailingZeros().toString());
                 }
 
             }
