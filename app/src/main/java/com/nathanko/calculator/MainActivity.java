@@ -23,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
     String bufferText;      // text of bufferField
     String lastInputText;   // previous lastInputText
 
-//    Button add_button;
-//    Button mult_button;
-
     int operator = -1;    // current operator, 0: +, 1: -, 2: *, 3: /
     int lastOperator;     // previous operator
 
@@ -46,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         bufferText = "";
         overwriteInputNextPress = false;
 
-//        add_button = (Button) findViewById(R.id.add_button);
-//        mult_button = (Button) findViewById(R.id.mult_button);
     }
 
     // Number button is pressed
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         inputField.setText(inputText);
 
         Log.v("DEBUG", "pressNum");
-        showDebug();
     }
 
     // Non-number button is pressed
@@ -100,25 +94,14 @@ public class MainActivity extends AppCompatActivity {
         inputField.setText(inputText);
 
         Log.v("DEBUG", "pressOther");
-        showDebug();
     }
 
-    public double toDouble(String str) {
-        double num = 0;
-        try {
-            num = Double.parseDouble(str);
-        } catch (Exception e) {
-            Toast.makeText(this, "Invalid input.", Toast.LENGTH_SHORT).show();
-        }
-        return num;
-
-    }
-
+    // Operator button is pressed
     public void pressOpBtn(View v) {
 
         if (inputText.length() > 0) {
             if (bufferText.length() > 0) {
-                eval(v);
+                pressEqualsBtn(v);
             }
             bufferText = inputText;
             inputText = "";
@@ -141,9 +124,147 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        bufferField.setText(bufferText + " " + opToString());
+        String display;
+        try {
+            //Round ans to 12 significant figures
+            BigDecimal ans = BigDecimal.valueOf(toDouble(bufferText));
+            BigDecimal ansDisplayed = ans.setScale(12 - ans.precision() + ans.scale(), RoundingMode.HALF_UP).stripTrailingZeros();
+            if (ansDisplayed.compareTo(BigDecimal.ZERO) == 0) {
+                display = "0";
+            } else {
+                try {
+                    //strip trailing zeros after decimal point
+                    display = String.valueOf(ansDisplayed.intValueExact()) + " " + opToString();
+                }
+                catch (Exception e){
+                    display = ansDisplayed.toString() + " " + opToString();
+                }
+            }
+        }
+        catch (Exception e){
+            display = bufferText;
+        }
+        bufferField.setText(display);
+
+
         inputField.setText(inputText);
-        showDebug();
+    }
+
+    // Equals sign is pressed
+    public void pressEqualsBtn(View v) {
+        BigDecimal ans = new BigDecimal("0");
+        double arithError = Double.NaN; //Nan, +Inf, or -Inf
+
+        Log.v("DEBUG", "bufferText.length() " + bufferText + " " + bufferText.length());
+        if (bufferText.length() == 0) {
+            // If bufferText is empty and user presses the equals button,
+            // apply the previous operation to the current inputText
+            bufferText = inputText;
+            operator = lastOperator;
+            inputText = lastInputText;
+        }
+
+        //If either operand (bufferText or inputText) is NaN or Inf, so is the answer
+        if (Double.isNaN(toDouble(bufferText)) || Double.isNaN(toDouble(inputText))) {
+            // any indeterminate operand means answer is also indeterminate
+            ans = null; // NaN
+            arithError = Double.NaN;
+            Toast.makeText(this, "The quotient is indeterminate.", Toast.LENGTH_SHORT).show();
+        } else if (Double.isInfinite(toDouble(bufferText)) || Double.isInfinite(toDouble(inputText))) {
+            // any undefined operand means answer is also undefined
+            ans = null; // +Inf or -Inf
+            arithError = toDouble(bufferText)/toDouble(inputText);
+            Toast.makeText(this, "The quotient is undefined.", Toast.LENGTH_SHORT).show();
+        } else {
+            // apply operator to bufferText and inputText
+            if (bufferText.length() > 0 && inputText.length() > 0) {
+                switch (operator) {
+                    case 0:
+                        ans = BigDecimal.valueOf(toDouble(bufferText)).add(BigDecimal.valueOf(toDouble(inputText)));
+                        break;
+                    case 1:
+                        ans = BigDecimal.valueOf(toDouble(bufferText)).subtract(BigDecimal.valueOf(toDouble(inputText)));
+                        break;
+                    case 2:
+                        ans = BigDecimal.valueOf(toDouble(bufferText)).multiply(BigDecimal.valueOf(toDouble(inputText)));
+                        break;
+                    case 3:
+                        if (toDouble(inputText) == 0) {
+                            // denominator is zero
+                            if (toDouble(bufferText) == 0) {
+                                // numerator is also zero, so answer is indeterminate
+                                Toast.makeText(this, "The quotient is indeterminate.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // numerator is not also zero, so answer is undefined
+                                Toast.makeText(this, "The quotient is undefined.", Toast.LENGTH_SHORT).show();
+                            }
+                            ans = null; // either Nan, +Inf, or -Inf
+                            arithError = toDouble(bufferText)/toDouble(inputText);
+                        } else {
+                            //Divide with 256 digits of precision
+                            ans = BigDecimal.valueOf(toDouble(bufferText)).divide(BigDecimal.valueOf(toDouble(inputText)), 256, RoundingMode.HALF_UP);
+                        }
+                        break;
+                    default:
+                        ans = BigDecimal.valueOf(toDouble(bufferText));
+                        break;
+                }
+            }
+        }
+
+
+        //set lastOperator as operator and lastInputText as inputText for next use
+        lastOperator = operator;
+        lastInputText = inputText;
+
+        overwriteInputNextPress = true;
+
+        bufferText = "";
+        bufferField.setText(bufferText);
+
+        if (ans == null){
+            //NaN, +Inf, or -Inf
+            inputText = arithError + "";
+            inputField.setText(inputText);
+        }
+        else {
+            inputText = ans.toString(); //Save accurate (unrounded) value
+
+            //Round ans to 12 significant figures
+            BigDecimal ansDisplayed = ans.setScale(12 - ans.precision() + ans.scale(), RoundingMode.HALF_UP);
+            if (ansDisplayed.compareTo(BigDecimal.ZERO) == 0) {
+                inputField.setText("0");
+            } else {
+                try {
+                    //strip trailing zeros after decimal point
+                    inputField.setText(String.valueOf(ansDisplayed.intValueExact()));
+                }
+                catch (Exception e){
+                    inputField.setText(ansDisplayed.toString());
+                }
+
+            }
+        }
+
+        Log.v("Debug", inputField.getText().toString()+"\t"+inputText);
+
+    }
+
+
+    public void inspectNum(View v) {
+        Intent i = new Intent(this, ViewNumber.class);
+        i.putExtra(NUMBER, inputText);
+        startActivity(i);
+    }
+
+    public double toDouble(String str) {
+        double num = 0;
+        try {
+            num = Double.parseDouble(str);
+        } catch (Exception e) {
+            //Toast.makeText(this, "Invalid input.", Toast.LENGTH_SHORT).show();
+        }
+        return num;
     }
 
     public String opToString() {
@@ -161,102 +282,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void eval(View v) {
-        String ans;
-        Log.v("DEBUG", "bufferText.length() " + bufferText + " " + bufferText.length());
-        if (bufferText.length() == 0) {
-            // If bufferText is empty and user presses the equals button,
-            // apply the previous operation to the current inputText
-            bufferText = inputText;
-            operator = lastOperator;
-            inputText = lastInputText;
-        }
-        showDebug();
 
-        //If either operand (bufferText or inputText) is NaN or Inf, so is the answer
-        if (Double.isNaN(toDouble(bufferText)) || Double.isNaN(toDouble(inputText))) {
-            ans = String.valueOf(Double.NaN);
-            Toast.makeText(this, "The quotient is indeterminate.", Toast.LENGTH_SHORT).show();
-        } else if (Double.isInfinite(toDouble(bufferText)) || Double.isInfinite(toDouble(inputText))) {
-            ans = String.valueOf(toDouble(bufferText) / toDouble(inputText));
-            Toast.makeText(this, "The quotient is undefined.", Toast.LENGTH_SHORT).show();
-        } else {
-            ans = evaluate();
-        }
-
-        //set lastOperator as operator and lastInputText as inputText for next use
-        lastOperator = operator;
-        lastInputText = inputText;
-
-        overwriteInputNextPress = true;
-
-        bufferText = "";
-        inputText = String.valueOf(ans);
-        inputField.setText(inputText);
-        bufferField.setText(bufferText);
-
-        showDebug();
-    }
-
-    public String evaluate() {
-
-        // apply operator to bufferText and inputText
-        BigDecimal ans = BigDecimal.valueOf(toDouble(bufferText));
-        if (bufferText.length() > 0 && inputText.length() > 0) {
-            switch (operator) {
-                case 0:
-                    ans = BigDecimal.valueOf(toDouble(bufferText)).add(BigDecimal.valueOf(toDouble(inputText)));
-                    break;
-                case 1:
-                    ans = BigDecimal.valueOf(toDouble(bufferText)).subtract(BigDecimal.valueOf(toDouble(inputText)));
-                    break;
-                case 2:
-                    ans = BigDecimal.valueOf(toDouble(bufferText)).multiply(BigDecimal.valueOf(toDouble(inputText)));
-                    break;
-                case 3:
-                    if (toDouble(inputText) == 0) {
-                        if (toDouble(bufferText) == 0) {
-                            Toast.makeText(this, "The quotient is indeterminate.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "The quotient is undefined.", Toast.LENGTH_SHORT).show();
-                        }
-                        return String.valueOf(toDouble(bufferText) / toDouble(inputText));
-                    } else {
-                        ans = BigDecimal.valueOf(toDouble(bufferText)).divide(BigDecimal.valueOf(toDouble(inputText)), 15, RoundingMode.HALF_UP);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //Round ans to 11 significant figures
-        ans = round(ans,11);
-        ans = ans.stripTrailingZeros();
-
-        if (toDouble(ans.toString())==0){
-            return "0";
-        }
-        else {
-            return ans.toString();
-        }
-    }
-
-    //Round num to n significant figures
-    public  BigDecimal round(BigDecimal num, int n) {
-        int newScale = n - num.precision() + num.scale();
-        return num.setScale(newScale, RoundingMode.HALF_UP);
-    }
-
-
-    public void inspectNum(View v) {
-        Intent i = new Intent(this, ViewNumber.class);
-        i.putExtra(NUMBER, inputText);
-        startActivity(i);
-    }
-
-    public void showDebug() {
-        Log.v("DEBUG", "bufferText " + bufferText + "\toperator " + operator + "\tinputText " + inputText + "\tlastInputText " + lastInputText + "\tlastOperator " + lastOperator + "\toverwriteInputNextPress " + overwriteInputNextPress);
-    }
 
 }

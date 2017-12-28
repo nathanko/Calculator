@@ -179,7 +179,7 @@
         android:layout_alignLeft="@+id/input_textview"
         android:layout_alignRight="@id/input_textview"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:onClick="eval" />
+        android:onClick="pressEqualsBtn" />
     <!---->
 
     <Button
